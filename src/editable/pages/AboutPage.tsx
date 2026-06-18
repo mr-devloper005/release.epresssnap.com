@@ -1,44 +1,57 @@
 import Link from 'next/link'
+import { ArrowRight, BadgeCheck, Globe2, Radio, Target } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
 import { pagesContent } from '@/editable/content/pages.content'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 
+const valueIcons = [Radio, Target, Globe2, BadgeCheck]
+
 export default function AboutPage() {
   return (
     <EditableSiteShell>
-      <main className="bg-[#f7f4ef] text-[#111]">
-        <section className="border-b border-black bg-[#c92f2f] text-white">
-          <div className="mx-auto max-w-[var(--editable-container)] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-            <p className="text-xs font-black uppercase tracking-[0.28em]">{pagesContent.about.badge}</p>
-            <h1 className="editorial-brand mt-5 max-w-5xl text-6xl font-black leading-[0.92] tracking-[-0.055em] sm:text-8xl">
-              Independent media, built for clear stories.
-            </h1>
+      <main className="bg-[#f4f4f4] text-[#030711]">
+        <section className="relative overflow-hidden bg-[#1c2537] text-white">
+          <div className="pointer-events-none absolute -left-32 top-16 h-[30rem] w-[30rem] rounded-full border-[36px] border-white/[0.045]" />
+          <div className="pointer-events-none absolute -right-28 -top-28 h-[32rem] w-[32rem] rounded-full border-[36px] border-white/[0.045]" />
+          <div className="mx-auto grid max-w-[1160px] gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-8 lg:py-28">
+            <div>
+              <p className="inline-flex items-center gap-2 text-lg font-bold text-[var(--slot4-accent)]"><span>✣</span>{pagesContent.about.badge}</p>
+              <h1 className="mt-6 max-w-3xl text-5xl font-black leading-tight sm:text-6xl">Media distribution built for clear public updates.</h1>
+              <p className="mt-8 max-w-xl text-lg font-semibold leading-8 text-white/78">{pagesContent.about.description}</p>
+              <Link href="/media-distribution" className="mt-10 inline-flex items-center gap-2 rounded-full bg-[var(--slot4-accent)] px-7 py-3.5 text-sm font-bold text-white">Explore Distribution <ArrowRight className="h-4 w-4" /></Link>
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2 xpress-card-wave">
+              {pagesContent.about.values.slice(0, 4).map((value, index) => {
+                const Icon = valueIcons[index] || BadgeCheck
+                return (
+                  <article key={value.title} className="bg-white/8 p-7 ring-1 ring-white/10 backdrop-blur transition hover:bg-white/12">
+                    <Icon className="h-8 w-8 text-[var(--slot4-accent)]" />
+                    <p className="mt-8 text-sm font-black text-white/35">0{index + 1}</p>
+                    <h2 className="mt-3 text-2xl font-black leading-tight">{value.title}</h2>
+                    <p className="mt-4 text-sm leading-7 text-white/68">{value.description}</p>
+                  </article>
+                )
+              })}
+            </div>
           </div>
         </section>
 
-        <section className="mx-auto grid max-w-[var(--editable-container)] border-x border-black bg-white lg:grid-cols-[1.45fr_0.55fr]">
-          <article className="border-b border-black p-7 sm:p-10 lg:border-b-0 lg:border-r lg:p-16">
-            <p className="text-sm font-black uppercase tracking-[0.2em] text-[#c92f2f]">About {SITE_CONFIG.name}</p>
-            <p className="editorial-serif mt-6 text-3xl font-bold leading-[1.25] sm:text-4xl">{pagesContent.about.description}</p>
-            <div className="article-content mt-10 space-y-6">
+        <section className="bg-white">
+          <div className="mx-auto grid max-w-[1160px] gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8 lg:py-24">
+            <aside className="bg-[#eeeeee] p-8 sm:p-10">
+              <p className="text-lg font-bold text-[var(--slot4-accent)]">✣ About {SITE_CONFIG.name}</p>
+              <h2 className="mt-5 text-4xl font-black leading-tight">Practical support for announcements, releases, and public communication.</h2>
+            </aside>
+            <article className="article-content">
               {pagesContent.about.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-            </div>
-          </article>
-          <aside className="grid bg-[#f7f4ef]">
-            {pagesContent.about.values.map((value, index) => (
-              <div key={value.title} className="border-b border-black p-7 last:border-b-0 sm:p-9">
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#c92f2f]">0{index + 1}</p>
-                <h2 className="editorial-serif mt-4 text-3xl font-black leading-tight">{value.title}</h2>
-                <p className="mt-4 text-sm leading-7 text-black/65">{value.description}</p>
-              </div>
-            ))}
-          </aside>
+            </article>
+          </div>
         </section>
 
-        <section className="border-y border-black bg-[#171717] text-white">
-          <div className="mx-auto flex max-w-[var(--editable-container)] flex-col gap-6 px-4 py-12 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-            <h2 className="editorial-brand max-w-3xl text-4xl font-black leading-none sm:text-5xl">Read the stories shaping the conversation.</h2>
-            <Link href="/search" className="inline-flex w-fit bg-[#c92f2f] px-6 py-4 text-xs font-black uppercase tracking-[0.18em]">Explore the archive</Link>
+        <section className="bg-[#1c2537] text-white">
+          <div className="mx-auto flex max-w-[1160px] flex-col gap-6 px-4 py-14 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+            <h2 className="max-w-2xl text-4xl font-black leading-tight">Ready to move your next update through a cleaner workflow?</h2>
+            <Link href="/contact" className="inline-flex w-fit items-center gap-2 rounded-full bg-[var(--slot4-accent)] px-7 py-3.5 text-sm font-bold">Contact Us <ArrowRight className="h-4 w-4" /></Link>
           </div>
         </section>
       </main>

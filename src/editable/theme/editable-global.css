@@ -1,8 +1,9 @@
-/* Fully editable publication theme. Keep data and route logic outside this file. */
+﻿/* Editable press-distribution theme. Keep data and route logic outside this file. */
 :root {
-  --editorial-red: var(--slot4-accent-fill);
-  --editorial-ink: var(--slot4-page-text);
-  --editorial-paper: var(--slot4-surface-bg);
+  --xpress-navy: var(--slot4-dark-bg);
+  --xpress-teal: var(--slot4-accent-fill);
+  --xpress-ink: var(--slot4-page-text);
+  --xpress-paper: var(--slot4-surface-bg);
 }
 
 html { scroll-behavior: smooth; }
@@ -14,74 +15,89 @@ body {
   font-feature-settings: "kern", "liga", "clig", "calt";
 }
 
-*::selection {
-  background: var(--editorial-red) !important;
-  color: #fff !important;
-  -webkit-text-fill-color: #fff;
-}
-
-*::-moz-selection {
-  background: var(--editorial-red) !important;
-  color: #fff !important;
-}
+*::selection { background: var(--xpress-teal) !important; color: #fff !important; -webkit-text-fill-color: #fff; }
+*::-moz-selection { background: var(--xpress-teal) !important; color: #fff !important; }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #ebe7e1; }
-::-webkit-scrollbar-thumb { background: #171717; border: 2px solid #ebe7e1; }
-::-webkit-scrollbar-thumb:hover { background: var(--editorial-red); }
+::-webkit-scrollbar-track { background: #edf2f1; }
+::-webkit-scrollbar-thumb { background: #80868e; border: 2px solid #edf2f1; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--xpress-teal); }
 
 .editorial-brand,
-.editorial-serif {
-  font-family: Georgia, 'Times New Roman', serif;
-}
+.editorial-serif { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.editorial-brand { font-style: normal; letter-spacing: 0; }
+.editorial-rule { border-color: rgba(28,37,55,0.14); }
 
-.editorial-brand {
-  font-style: italic;
-  letter-spacing: -0.065em;
+.xpress-logo-mark {
+  position: relative;
+  display: inline-flex;
+  height: 1.2em;
+  width: 1.2em;
+  align-items: center;
+  justify-content: center;
 }
+.xpress-logo-mark::before,
+.xpress-logo-mark::after {
+  content: "";
+  position: absolute;
+  background: var(--xpress-teal);
+  border-radius: 2px;
+}
+.xpress-logo-mark::before { inset: 0.18em 0.47em; transform: rotate(45deg); }
+.xpress-logo-mark::after { inset: 0.47em 0.18em; transform: rotate(45deg); }
 
-.editorial-rule { border-color: color-mix(in srgb, var(--editorial-ink) 22%, transparent); }
+.xpress-orbit { animation: xpress-orbit 16s linear infinite; transform-origin: center; }
+.xpress-float { animation: xpress-float 5.5s ease-in-out infinite; }
+.xpress-float-delayed { animation: xpress-float 6.5s ease-in-out 0.8s infinite; }
+.xpress-marquee { animation: xpress-marquee 34s linear infinite; }
+.xpress-card-wave > * { animation: xpress-card-rise 8s ease-in-out infinite; }
+.xpress-card-wave > *:nth-child(2) { animation-delay: .8s; }
+.xpress-card-wave > *:nth-child(3) { animation-delay: 1.6s; }
+.xpress-card-wave > *:nth-child(4) { animation-delay: 2.4s; }
+
+@keyframes xpress-orbit { to { transform: rotate(360deg); } }
+@keyframes xpress-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes xpress-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes xpress-card-rise { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
 .article-content {
-  color: #24211e;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(1.05rem, 1vw + .75rem, 1.25rem);
-  line-height: 1.82;
+  color: #303640;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: clamp(1rem, .7vw + .82rem, 1.15rem);
+  line-height: 1.8;
 }
-
 .article-content > :first-child { margin-top: 0; }
-.article-content p { margin: 0 0 1.55em; }
-.article-content p:first-of-type::first-letter {
-  float: left;
-  margin: .08em .12em 0 0;
-  color: var(--editorial-red);
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 4.7em;
-  font-weight: 900;
-  line-height: .72;
-}
-
+.article-content p { margin: 0 0 1.45em; }
+.article-content p:first-of-type::first-letter { float: none; margin: 0; color: inherit; font-size: inherit; font-weight: inherit; line-height: inherit; }
 .article-content h2,
 .article-content h3,
 .article-content h4 {
-  margin: 1.8em 0 .65em;
-  color: #111;
+  margin: 1.7em 0 .6em;
+  color: var(--xpress-ink);
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-weight: 900;
-  letter-spacing: -.045em;
-  line-height: 1.05;
+  letter-spacing: 0;
+  line-height: 1.08;
 }
-.article-content h2 { font-size: clamp(1.8rem, 4vw, 3rem); }
-.article-content h3 { font-size: clamp(1.45rem, 3vw, 2.15rem); }
-.article-content a { color: var(--editorial-red); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
-.article-content blockquote { margin: 2em 0; border-left: 7px solid var(--editorial-red); padding: .2em 0 .2em 1em; color: #111; font-size: 1.35em; font-weight: 700; line-height: 1.35; }
+.article-content h2 { font-size: clamp(1.7rem, 3vw, 2.7rem); }
+.article-content h3 { font-size: clamp(1.35rem, 2.4vw, 2rem); }
+.article-content a { color: var(--xpress-teal); font-weight: 800; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.article-content blockquote { margin: 2em 0; border-left: 5px solid var(--xpress-teal); padding: .25em 0 .25em 1em; color: var(--xpress-ink); font-size: 1.25em; font-weight: 800; line-height: 1.45; }
 .article-content ul, .article-content ol { margin: 1.3em 0; padding-left: 1.4em; }
 .article-content li { margin: .5em 0; }
-.article-content img { width: 100%; margin: 2em 0; }
+.article-content img { width: 100%; margin: 2em 0; border-radius: 0; }
 
-input, textarea, select, button { border-radius: 0 !important; }
+input, textarea, select, button { border-radius: 999px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .xpress-orbit,
+  .xpress-float,
+  .xpress-float-delayed,
+  .xpress-marquee,
+  .xpress-card-wave > * { animation: none !important; }
+}
 
 @media (max-width: 640px) {
-  .article-content { font-size: 1.05rem; line-height: 1.72; }
-  .article-content p:first-of-type::first-letter { font-size: 3.9em; }
+  .article-content { font-size: 1rem; line-height: 1.72; }
 }
+

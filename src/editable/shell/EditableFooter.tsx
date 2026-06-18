@@ -1,44 +1,60 @@
-'use client'
+﻿'use client'
 
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { Search, Send } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
 import { globalContent } from '@/editable/content/global.content'
 import { useEditableLocalAuthSession } from '@/editable/components/EditableLocalAuthForms'
+
+const footerLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Distribution', href: '/media-distribution' },
+  { label: 'Login', href: '/login' },
+  { label: 'Register', href: '/signup' },
+  { label: 'Search', href: '/search' },
+]
 
 export function EditableFooter() {
   const year = new Date().getFullYear()
   const { session, logout } = useEditableLocalAuthSession()
 
   return (
-    <footer className="border-t-8 border-[var(--slot4-accent)] bg-black text-white">
-      <div className="mx-auto max-w-[1440px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.2fr_.7fr_.7fr]">
-          <div>
-            <Link href="/" className="editorial-brand text-5xl font-black text-[var(--slot4-accent)] sm:text-6xl">{SITE_CONFIG.name}</Link>
-            <p className="mt-6 max-w-xl text-sm leading-7 text-white/62">{globalContent.footer?.description || SITE_CONFIG.description}</p>
-            <form action="/signup" className="mt-8 flex max-w-xl border border-white/35">
-              <input name="email" type="email" placeholder="Email for newsroom updates" className="min-w-0 flex-1 bg-transparent px-4 py-4 text-sm outline-none placeholder:text-white/40" />
-              <button className="bg-[var(--slot4-accent)] px-5 text-xs font-black uppercase tracking-[.14em]">Subscribe</button>
-            </form>
+    <footer className="relative overflow-hidden bg-[#1c2537] text-white">
+      <div className="pointer-events-none absolute -right-20 -top-24 h-96 w-96 rounded-full border-[36px] border-white/[0.04]" />
+      <div className="mx-auto grid max-w-[1160px] gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_.9fr_.9fr] lg:px-8 lg:py-20">
+        <div>
+          <Link href="/" className="inline-flex items-center gap-2 text-2xl font-black uppercase text-[var(--slot4-accent)]">
+            <span className="xpress-logo-mark" /> {SITE_CONFIG.name}
+          </Link>
+          <p className="mt-6 max-w-sm text-sm font-semibold leading-7 text-white/78">{globalContent.footer?.description || 'Express your story. Amplify your reach.'}</p>
+        </div>
+
+        <div>
+          <h3 className="text-2xl font-black">Pages</h3>
+          <div className="mt-5 h-px w-16 bg-[var(--slot4-accent)]" />
+          <div className="mt-7 grid gap-4 text-sm font-semibold sm:grid-cols-2">
+            {footerLinks.map((item) => <Link key={item.href} href={item.href} className="hover:text-[var(--slot4-accent)]">{item.label}</Link>)}
+            {session ? <button onClick={logout} className="text-left hover:text-[var(--slot4-accent)]">Logout</button> : null}
           </div>
-          <div>
-            <h3 className="border-b border-white/25 pb-3 text-[10px] font-black uppercase tracking-[.22em] text-white/55">Explore</h3>
-            <div className="mt-4 grid gap-3">
-              <Link href="/search" className="group inline-flex items-center justify-between text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Archive<ArrowRight className="h-4 w-4" /></Link>
-            </div>
-          </div>
-          <div>
-            <h3 className="border-b border-white/25 pb-3 text-[10px] font-black uppercase tracking-[.22em] text-white/55">Publication</h3>
-            <div className="mt-4 grid gap-3">
-              <Link href="/about" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">About</Link>
-              <Link href="/contact" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Contact</Link>
-              {session ? <><Link href="/create" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Publish</Link><button onClick={logout} className="text-left text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Logout</button></> : <><Link href="/login" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Log in</Link><Link href="/signup" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Subscribe</Link></>}
-            </div>
+        </div>
+
+        <div>
+          <h3 className="text-2xl font-black">Quick Search</h3>
+          <div className="mt-5 h-px w-16 bg-[var(--slot4-accent)]" />
+          <form action="/search" className="mt-7 flex rounded-full border border-white/20 bg-white/5 px-4">
+            <Search className="mt-4 h-4 w-4 text-[var(--slot4-accent)]" />
+            <input name="q" placeholder="Search releases" className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm font-semibold outline-none placeholder:text-white/45" />
+            <button className="text-sm font-bold text-[var(--slot4-accent)]">Go</button>
+          </form>
+          <div className="mt-7 grid gap-5 text-sm font-semibold text-white/88">
+            <Link href="/contact" className="mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-[var(--slot4-accent)] px-7 py-3 text-sm font-bold text-white">Contact Us <Send className="h-4 w-4" /></Link>
           </div>
         </div>
       </div>
-      <div className="border-t border-white/20 px-4 py-5 text-center text-[10px] font-black uppercase tracking-[.18em] text-white/45">© {year} {SITE_CONFIG.name}. Independent media and public information.</div>
+      <div className="border-t border-white/10 px-4 py-5 text-center text-xs font-semibold text-white/55">© {year} {SITE_CONFIG.name}. Media distribution and public information.</div>
     </footer>
   )
 }
+
